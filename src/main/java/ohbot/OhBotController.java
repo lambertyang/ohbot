@@ -2,22 +2,11 @@ package ohbot;
 
 import com.linecorp.bot.client.LineMessagingService;
 import com.linecorp.bot.model.ReplyMessage;
-import com.linecorp.bot.model.action.MessageAction;
-import com.linecorp.bot.model.action.PostbackAction;
-import com.linecorp.bot.model.action.URIAction;
 import com.linecorp.bot.model.event.Event;
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
-import com.linecorp.bot.model.event.source.GroupSource;
-import com.linecorp.bot.model.event.source.RoomSource;
-import com.linecorp.bot.model.event.source.Source;
 import com.linecorp.bot.model.message.Message;
-import com.linecorp.bot.model.message.TemplateMessage;
 import com.linecorp.bot.model.message.TextMessage;
-import com.linecorp.bot.model.message.template.ButtonsTemplate;
-import com.linecorp.bot.model.message.template.CarouselColumn;
-import com.linecorp.bot.model.message.template.CarouselTemplate;
-import com.linecorp.bot.model.message.template.ConfirmTemplate;
 import com.linecorp.bot.model.response.BotApiResponse;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
@@ -80,138 +69,138 @@ public class OhBotController {
 
     private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
         String text = content.getText();
-        if (text.contains("§—Æ") && text.contains("?")) {
-            text = text.replace("§—Æ","").replace("?","").replace("ªO","•x").trim();
+        if (text.contains("Â§©Ê∞£") && text.contains("?")) {
+            text = text.replace("Â§©Ê∞£", "").replace("?", "").replace("Ëá∫", "Âè∞").trim();
             CloseableHttpClient httpClient = HttpClients.createDefault();
-            String strResult = "";
+            String strResult ;
             switch (text) {
-                case "•x•_•´": {
+                case "Âè∞ÂåóÂ∏Ç": {
                     HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_63.txt");
                     CloseableHttpResponse response = httpClient.execute(httpget);
                     HttpEntity httpEntity = response.getEntity();
                     strResult = EntityUtils.toString(httpEntity, "utf-8");
                     break;
                 }
-                case "∑s•_•´": {
+                case "Êñ∞ÂåóÂ∏Ç": {
                     HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_65.txt");
                     CloseableHttpResponse response = httpClient.execute(httpget);
                     HttpEntity httpEntity = response.getEntity();
                     strResult = EntityUtils.toString(httpEntity, "utf-8");
                     break;
                 }
-                case "ÆÁ∂È•´": {
+                case "Ê°ÉÂúíÂ∏Ç": {
                     HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_68.txt");
                     CloseableHttpResponse response = httpClient.execute(httpget);
                     HttpEntity httpEntity = response.getEntity();
                     strResult = EntityUtils.toString(httpEntity, "utf-8");
                     break;
                 }
-                case "ªO§§•´": {
+                case "Ëá∫‰∏≠Â∏Ç": {
                     HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_66.txt");
                     CloseableHttpResponse response = httpClient.execute(httpget);
                     HttpEntity httpEntity = response.getEntity();
                     strResult = EntityUtils.toString(httpEntity, "utf-8");
                     break;
                 }
-                case "∞™∂Ø•´": {
+                case "È´òÈõÑÂ∏Ç": {
                     HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_64.txt");
                     CloseableHttpResponse response = httpClient.execute(httpget);
                     HttpEntity httpEntity = response.getEntity();
                     strResult = EntityUtils.toString(httpEntity, "utf-8");
                     break;
                 }
-                case "∞Ú∂©•´": {
+                case "Âü∫ÈöÜÂ∏Ç": {
                     HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_10017.txt");
                     CloseableHttpResponse response = httpClient.execute(httpget);
                     HttpEntity httpEntity = response.getEntity();
                     strResult = EntityUtils.toString(httpEntity, "utf-8");
                     break;
                 }
-                case "∑s¶À•´": {
+                case "Êñ∞Á´πÂ∏Ç": {
                     HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_10018.txt");
                     CloseableHttpResponse response = httpClient.execute(httpget);
                     HttpEntity httpEntity = response.getEntity();
                     strResult = EntityUtils.toString(httpEntity, "utf-8");
                     break;
                 }
-                case "∑s¶Àø§": {
+                case "Êñ∞Á´πÁ∏£": {
                     HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_10004.txt");
                     CloseableHttpResponse response = httpClient.execute(httpget);
                     HttpEntity httpEntity = response.getEntity();
                     strResult = EntityUtils.toString(httpEntity, "utf-8");
                     break;
                 }
-                case "≠]Æﬂø§": {
+                case "ËãóÊ†óÁ∏£": {
                     HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_10005.txt");
                     CloseableHttpResponse response = httpClient.execute(httpget);
                     HttpEntity httpEntity = response.getEntity();
                     strResult = EntityUtils.toString(httpEntity, "utf-8");
                     break;
                 }
-                case "π¸§∆ø§": {
+                case "ÂΩ∞ÂåñÁ∏£": {
                     HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_10007.txt");
                     CloseableHttpResponse response = httpClient.execute(httpget);
                     HttpEntity httpEntity = response.getEntity();
                     strResult = EntityUtils.toString(httpEntity, "utf-8");
                     break;
                 }
-                case "´nßÎø§": {
+                case "ÂçóÊäïÁ∏£": {
                     HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_10008.txt");
                     CloseableHttpResponse response = httpClient.execute(httpget);
                     HttpEntity httpEntity = response.getEntity();
                     strResult = EntityUtils.toString(httpEntity, "utf-8");
                     break;
                 }
-                case "∂≥™Lø§": {
+                case "Èõ≤ÊûóÁ∏£": {
                     HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_10009.txt");
                     CloseableHttpResponse response = httpClient.execute(httpget);
                     HttpEntity httpEntity = response.getEntity();
                     strResult = EntityUtils.toString(httpEntity, "utf-8");
                     break;
                 }
-                case "π≈∏q•´": {
+                case "ÂòâÁæ©Â∏Ç": {
                     HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_10020.txt");
                     CloseableHttpResponse response = httpClient.execute(httpget);
                     HttpEntity httpEntity = response.getEntity();
                     strResult = EntityUtils.toString(httpEntity, "utf-8");
                     break;
                 }
-                case "π≈∏qø§": {
+                case "ÂòâÁæ©Á∏£": {
                     HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_10010.txt");
                     CloseableHttpResponse response = httpClient.execute(httpget);
                     HttpEntity httpEntity = response.getEntity();
                     strResult = EntityUtils.toString(httpEntity, "utf-8");
                     break;
                 }
-                case "´Ã™Fø§": {
+                case "Â±èÊù±Á∏£": {
                     HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_10013.txt");
                     CloseableHttpResponse response = httpClient.execute(httpget);
                     HttpEntity httpEntity = response.getEntity();
                     strResult = EntityUtils.toString(httpEntity, "utf-8");
                     break;
                 }
-                case "©yƒıø§": {
+                case "ÂÆúËò≠Á∏£": {
                     HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_10002.txt");
                     CloseableHttpResponse response = httpClient.execute(httpget);
                     HttpEntity httpEntity = response.getEntity();
                     strResult = EntityUtils.toString(httpEntity, "utf-8");
                     break;
                 }
-                case "™·Ω¨ø§": {
+                case "Ëä±ËìÆÁ∏£": {
                     HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_10015.txt");
                     CloseableHttpResponse response = httpClient.execute(httpget);
                     HttpEntity httpEntity = response.getEntity();
                     strResult = EntityUtils.toString(httpEntity, "utf-8");
                     break;
                 }
-                case "ªO™Fø§": {
+                case "Ëá∫Êù±Á∏£": {
                     HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_10014.txt");
                     CloseableHttpResponse response = httpClient.execute(httpget);
                     HttpEntity httpEntity = response.getEntity();
                     strResult = EntityUtils.toString(httpEntity, "utf-8");
                     break;
                 }
-                case "ºÍ¥Úø§": {
+                case "ÊæéÊπñÁ∏£": {
                     HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_10016.txt");
                     CloseableHttpResponse response = httpClient.execute(httpget);
                     HttpEntity httpEntity = response.getEntity();
@@ -219,7 +208,7 @@ public class OhBotController {
                     break;
                 }
                 default:
-                    strResult="∏q§jßQ?∫˚§j§O?";
+                    strResult = "Áæ©Â§ßÂà©?Á∂≠Â§ßÂäõ?";
             }
             strResult = strResult.replace("<BR><BR>", "\n");
             strResult = strResult.replaceAll("<[^<>]*?>", "");
@@ -232,7 +221,7 @@ public class OhBotController {
             throw new IllegalArgumentException("replyToken must not be empty");
         }
         if (message.length() > 1000) {
-            message = message.substring(0, 1000 - 2) + "°K°K";
+            message = message.substring(0, 1000 - 2) + "‚Ä¶‚Ä¶";
         }
         this.reply(replyToken, new TextMessage(message));
     }
