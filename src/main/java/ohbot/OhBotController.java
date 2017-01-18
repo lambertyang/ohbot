@@ -76,10 +76,9 @@ public class OhBotController {
     private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws IOException {
         String text = content.getText();
         if (text.endsWith("天氣?")) {
-            text = text.replace("天氣", "").replace("?", "").replace("臺", "台").trim();
+            text = text.replace("天氣", "").replace("?", "").replace("？","").replace("臺", "台").trim();
+            System.out.println(text);
             if (text.length() == 3) {
-
-
                 CloseableHttpClient httpClient = HttpClients.createDefault();
                 String strResult;
                 switch (text) {
