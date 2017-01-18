@@ -103,7 +103,7 @@ public class OhBotController {
                         strResult = EntityUtils.toString(httpEntity, "utf-8");
                         break;
                     }
-                    case "臺中市": {
+                    case "台中市": {
                         HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_66.txt");
                         CloseableHttpResponse response = httpClient.execute(httpget);
                         HttpEntity httpEntity = response.getEntity();
@@ -201,7 +201,7 @@ public class OhBotController {
                         strResult = EntityUtils.toString(httpEntity, "utf-8");
                         break;
                     }
-                    case "臺東縣": {
+                    case "台東縣": {
                         HttpGet httpget = new HttpGet("http://www.cwb.gov.tw/V7/forecast/taiwan/Data/W50_10014.txt");
                         CloseableHttpResponse response = httpClient.execute(httpget);
                         HttpEntity httpEntity = response.getEntity();
