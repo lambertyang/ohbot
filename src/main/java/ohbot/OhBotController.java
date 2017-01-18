@@ -69,7 +69,6 @@ public class OhBotController {
 
     @EventMapping
     public void handleTextMessageEvent(MessageEvent<TextMessageContent> event) throws IOException {
-
         handleTextContent(event.getReplyToken(), event, event.getMessage());
     }
 
@@ -224,7 +223,6 @@ public class OhBotController {
                 this.replyText(replyToken, strResult);
             }
         }
-        this.replyText(replyToken, text);
     }
 
     private void replyText(@NonNull String replyToken, @NonNull String message) {
