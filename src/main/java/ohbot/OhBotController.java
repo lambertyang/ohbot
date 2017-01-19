@@ -483,7 +483,7 @@ public class OhBotController {
                     while(matcher.find()){
                         rainfallRate = matcher.group().replaceAll("<[^>]*>", "");
                     }
-                    strResult = text+"\n 氣溫 : "+temperature+"\n"+dateTime+"\n天氣狀況 : "+weatherConditions+"\n舒適度 : "+comfort+"\n降雨率 : "+rainfallRate;
+                    strResult = text+"氣溫 : "+temperature+"\n"+dateTime+"\n天氣狀況 : "+weatherConditions+"\n舒適度 : "+comfort+"\n降雨率 : "+rainfallRate;
                     this.replyText(replyToken, strResult);
                 }
 
