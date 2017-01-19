@@ -70,7 +70,7 @@ public class OhBotController {
 
                 strResult = strResult.substring(
                 strResult.indexOf("<h3 class=\"CenterTitle\">今明預報<span class=\"Issued\">"), strResult.length());
-                strResult = strResult.substring(0,strResult.indexOf("</tr></tbody>"));
+                strResult = strResult.substring(0,strResult.indexOf("</tr><tr>"));
                 Pattern pattern = Pattern.compile("<th scope=\"row\">.*?</th>");
                 Matcher matcher = pattern.matcher(strResult);
                 while(matcher.find()){
@@ -96,7 +96,7 @@ public class OhBotController {
                 while(matcher.find()){
                     rainfallRate = matcher.group().replaceAll("<[^>]*>", "");
                 }
-                strResult = dateTime+"\n"+temperature+"\n"+weatherConditions+"\n"+comfort+"\n"+rainfallRate;
+                strResult = "氣溫"+temperature+"\n"+dateTime+"\n天氣狀況 : "+weatherConditions+"\n舒適度 : "+comfort+"\n降雨率 : "+rainfallRate;
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -457,7 +457,7 @@ public class OhBotController {
                     String rainfallRate = "";
                     strResult = strResult.substring(
                             strResult.indexOf("<h3 class=\"CenterTitle\">今明預報<span class=\"Issued\">"), strResult.length());
-                    strResult = strResult.substring(0,strResult.indexOf("</tr></tbody>"));
+                    strResult = strResult.substring(0,strResult.indexOf("</tr><tr>"));
                     Pattern pattern = Pattern.compile("<th scope=\"row\">.*?</th>");
                     Matcher matcher = pattern.matcher(strResult);
                     while(matcher.find()){
@@ -471,19 +471,19 @@ public class OhBotController {
                     pattern = Pattern.compile("title=\".*?\"");
                     matcher = pattern.matcher(strResult);
                     while(matcher.find()){
-                        weatherConditions = matcher.group().replace("title=\"", "").replace("\"", "");
+                        weatherConditions = matcher.group().replace("title=\"", "").replace("\"", "").replaceAll("[\\s]{0,}","");
                     }
                     pattern = Pattern.compile("<img.*?</td>[\\s]{0,}<td>.*?</td>");
                     matcher = pattern.matcher(strResult);
                     while(matcher.find()){
-                        comfort = matcher.group().replaceAll("<[^>]*>", "");
+                        comfort = matcher.group().replaceAll("<[^>]*>", "").replaceAll("[\\s]{0,}","");
                     }
                     pattern = Pattern.compile("<td>[\\d]{0,3} %</td>");
                     matcher = pattern.matcher(strResult);
                     while(matcher.find()){
                         rainfallRate = matcher.group().replaceAll("<[^>]*>", "");
                     }
-                    strResult = "text\n"+dateTime+"\n"+temperature+"\n"+weatherConditions+"\n"+comfort+"\n"+rainfallRate;
+                    strResult = text+"\n 氣溫 : "+temperature+"\n"+dateTime+"\n天氣狀況 : "+weatherConditions+"\n舒適度 : "+comfort+"\n降雨率 : "+rainfallRate;
                     this.replyText(replyToken, strResult);
                 }
 
