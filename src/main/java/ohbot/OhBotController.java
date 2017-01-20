@@ -544,8 +544,19 @@ public class OhBotController {
             Gson gson = new GsonBuilder().create();
             StockData stockData = gson.fromJson(EntityUtils.toString(httpEntity, "utf-8"), StockData.class);
             for(MsgArray msgArray:stockData.getMsgArray()){
-                DecimalFormat df=new DecimalFormat("#.##");
-                strResult = msgArray.getC()+" "+msgArray.getN()+"\n現價 : "+msgArray.getZ()+"\n開盤 : "+msgArray.getO()+"\n昨收 : "+msgArray.getY()+"\n更新 : "+msgArray.getT();
+                DecimalFormat decimalFormat = new DecimalFormat("#.##");
+                Double nowPrice = Double.valueOf(msgArray.getZ());
+                Double yesterday = Double.valueOf(msgArray.getY());
+                Double diff = nowPrice - yesterday;
+                String change = "";
+                if (diff == 0) {
+                    change = " " + diff;
+                } else if (diff > 0) {
+                    change = " +" + decimalFormat.format(diff);
+                } else {
+                    change = " -" + decimalFormat.format(diff*(-1));
+                }
+                strResult = msgArray.getC()+" "+msgArray.getN()+" "+change+" \n現價 : "+msgArray.getZ()+"\n開盤 : "+msgArray.getO()+"\n昨收 : "+msgArray.getY()+"\n更新 : "+msgArray.getT();
             }
             this.replyText(replyToken, strResult);
         } catch (IOException e) {
