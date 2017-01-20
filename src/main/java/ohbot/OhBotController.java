@@ -531,7 +531,7 @@ public class OhBotController {
             Gson gson = new GsonBuilder().create();
             StockData stockData = gson.fromJson(EntityUtils.toString(httpEntity, "utf-8"), StockData.class);
             for(MsgArray msgArray:stockData.getMsgArray()){
-                strResult = msgArray.getC()+" "+msgArray.getN()+"\n"+msgArray.getZ();
+                strResult = msgArray.getC()+" "+msgArray.getN()+"\n現價 : "+msgArray.getZ()+"\n開盤 : "+msgArray.getO()+"\n昨收 : "+msgArray.getY()+"\n更新 : "+msgArray.getTlong();
             }
             this.replyText(replyToken, strResult);
         } catch (IOException e) {
