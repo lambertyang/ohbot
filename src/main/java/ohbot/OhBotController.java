@@ -167,7 +167,7 @@ public class OhBotController {
             weatherResult2(text, replyToken);
         }
 
-        if(text.startsWith("st") && text.endsWith("?")){
+        if(text.startsWith("@") && text.endsWith("?")){
             stock(text, replyToken);
         }
     }
@@ -502,7 +502,7 @@ public class OhBotController {
 
     private void stock(String text, String replyToken) {
         try {
-            text = text.replace("st","").replace("?","");
+            text = text.replace("@","").replace("?","");
             String strResult;
             CloseableHttpClient httpClient = HttpClients.createDefault();
             String url="http://mis.twse.com.tw/stock/index.jsp";
