@@ -10,25 +10,33 @@ public class MsgArray {
     private String tk1;
     private String oa;
     private String ob;
+    //資料時間
     private String tlong;
     private String ot;
+    //最價五檔賣出數量
     private String f;
     private String ex;
+    //最佳五檔買入數量
     private String g;
     private String ov;
+    //今日日期
     private String d;
     private String it;
+    //最佳五檔買入價格
     private String b;
     //股票代號
     private String c;
     private String mt;
+    //最佳五檔賣出價格
     private String a;
     //公司簡稱
     private String n;
     //開盤
     private String o;
+    //今日最低
     private String l;
     private String oz;
+    //今日最高
     private String h;
     private String ip;
     private String i;

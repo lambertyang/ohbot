@@ -30,6 +30,7 @@ import retrofit2.Response;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -110,8 +111,7 @@ public class OhBotController {
         try {
             if (stock != null) {
                 CloseableHttpClient httpClient = HttpClients.createDefault();
-//                String url="http://mis.twse.com.tw/stock/api/getStockInfo.jsp?ex_ch=tse_"+stock+".tw&json=1&delay=0&_="+System.currentTimeMillis();
-                String url="http://mis.twse.com.tw/stock/api/getStockInfo.jsp?ex_ch=tse_1101.tw&_=1484742235453";
+                String url="http://mis.twse.com.tw/stock/index.jsp";
                 log.info(url);
                 HttpGet httpget = new HttpGet(url);
                 httpget.setHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
@@ -120,9 +120,17 @@ public class OhBotController {
                 httpget.setHeader("Cache-Control","max-age=0");
                 httpget.setHeader("Connection","keep-alive");
                 httpget.setHeader("Host","mis.twse.com.tw");
-                httpget.setHeader("Upgrade-Insecure-Requests","1");
-                httpget.setHeader("User-Agent","Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36");
+                httpget.setHeader("Upgrade-Insecure-Requests", "1");
+                httpget.setHeader("User-Agent",
+                                  "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36");
                 CloseableHttpResponse response = httpClient.execute(httpget);
+                log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                url="http://mis.twse.com.tw/stock/api/getStockInfo.jsp?ex_ch=tse_"+stock+".tw&_="+
+                    Instant.now().toEpochMilli();
+                log.info(url);
+                httpget = new HttpGet(url);
+                response = httpClient.execute(httpget);
+                log.info(String.valueOf(response.getStatusLine().getStatusCode()));
                 HttpEntity httpEntity = response.getEntity();
                 strResult = "";
 
@@ -131,7 +139,6 @@ public class OhBotController {
                 for(MsgArray msgArray:stockData.getMsgArray()){
                     strResult = msgArray.getC()+" "+msgArray.getN()+"\n"+msgArray.getZ();
                 }
-
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -498,10 +505,34 @@ public class OhBotController {
             text = text.replace("st","").replace("?","");
             String strResult;
             CloseableHttpClient httpClient = HttpClients.createDefault();
-            HttpGet httpget = new HttpGet("http://mis.twse.com.tw/stock/fibest.jsp?stock="+text);
+            String url="http://mis.twse.com.tw/stock/index.jsp";
+            log.info(url);
+            HttpGet httpget = new HttpGet(url);
+            httpget.setHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
+            httpget.setHeader("Accept-Encoding","gzip, deflate, sdch");
+            httpget.setHeader("Accept-Language", "zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4");
+            httpget.setHeader("Cache-Control","max-age=0");
+            httpget.setHeader("Connection","keep-alive");
+            httpget.setHeader("Host","mis.twse.com.tw");
+            httpget.setHeader("Upgrade-Insecure-Requests", "1");
+            httpget.setHeader("User-Agent",
+                              "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36");
             CloseableHttpResponse response = httpClient.execute(httpget);
+            log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            url="http://mis.twse.com.tw/stock/api/getStockInfo.jsp?ex_ch=tse_"+text+".tw&_="+
+                Instant.now().toEpochMilli();
+            log.info(url);
+            httpget = new HttpGet(url);
+            response = httpClient.execute(httpget);
+            log.info(String.valueOf(response.getStatusLine().getStatusCode()));
             HttpEntity httpEntity = response.getEntity();
-            strResult = EntityUtils.toString(httpEntity, "utf-8");
+            strResult = "";
+
+            Gson gson = new GsonBuilder().create();
+            StockData stockData = gson.fromJson(EntityUtils.toString(httpEntity, "utf-8"), StockData.class);
+            for(MsgArray msgArray:stockData.getMsgArray()){
+                strResult = msgArray.getC()+" "+msgArray.getN()+"\n"+msgArray.getZ();
+            }
             this.replyText(replyToken, strResult);
         } catch (IOException e) {
             e.printStackTrace();
