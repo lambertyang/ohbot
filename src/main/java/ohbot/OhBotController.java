@@ -180,7 +180,7 @@ public class OhBotController {
             weatherResult2(text, replyToken);
         }
 
-        if(text.startsWith("@") && text.endsWith("?")){
+        if (text.startsWith("@") && (text.endsWith("?") || text.endsWith("？"))) {
             stock(text, replyToken);
         }
     }
