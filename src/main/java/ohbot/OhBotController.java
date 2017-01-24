@@ -549,14 +549,25 @@ public class OhBotController {
                 Double yesterday = Double.valueOf(msgArray.getY());
                 Double diff = nowPrice - yesterday;
                 String change = "";
+                String range = "";
                 if (diff == 0) {
                     change = " " + diff;
+                    range = " " + "-";
                 } else if (diff > 0) {
                     change = " +" + decimalFormat.format(diff);
+                    range = " ▵" + decimalFormat.format(diff / yesterday) + "%";
+                    if ((diff / yesterday) >= 10) {
+                        range = " ▲" + decimalFormat.format(diff / yesterday) + "%";
+                    }
                 } else {
                     change = " -" + decimalFormat.format(diff*(-1));
+                    range = " ▿" + decimalFormat.format(diff / yesterday) + "%";
+                    if ((diff / yesterday) <= 10) {
+                        range = " ▼" + decimalFormat.format(diff / yesterday) + "%";
+                    }
                 }
-                strResult = msgArray.getC()+" "+msgArray.getN()+" "+change+" \n現價 : "+msgArray.getZ()+"\n開盤 : "+msgArray.getO()+"\n昨收 : "+msgArray.getY()+"\n更新 : "+msgArray.getT();
+                //開盤 : "+msgArray.getO()+"\n昨收 : "+msgArray.getY()+"
+                strResult = msgArray.getC()+" "+ msgArray.getN()+" "+change+range+" \n現價 : "+msgArray.getZ()+"\n更新 : "+msgArray.getT();
             }
             this.replyText(replyToken, strResult);
         } catch (IOException e) {
