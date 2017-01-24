@@ -515,7 +515,7 @@ public class OhBotController {
 
     private void stock(String text, String replyToken) {
         try {
-            text = text.replace("@","").replace("?","");
+            text = text.replace("@","").replace("?", "").replace("？","");
             String strResult;
             CloseableHttpClient httpClient = HttpClients.createDefault();
             String url="http://mis.twse.com.tw/stock/index.jsp";
