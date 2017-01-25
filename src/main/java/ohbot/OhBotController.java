@@ -3,6 +3,7 @@ package ohbot;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.linecorp.bot.client.LineMessagingService;
+import com.linecorp.bot.model.PushMessage;
 import com.linecorp.bot.model.ReplyMessage;
 import com.linecorp.bot.model.event.Event;
 import com.linecorp.bot.model.event.MessageEvent;
@@ -104,6 +105,21 @@ public class OhBotController {
             e.printStackTrace();
         }
         return strResult;
+    }
+
+    @RequestMapping("/test")
+    public String test(@RequestParam(value = "gid") String gid,@RequestParam(value = "message") String message) {
+        TextMessage textMessage = new TextMessage(message);
+        PushMessage pushMessage = new PushMessage(gid,textMessage);
+
+        Response<BotApiResponse> apiResponse = null;
+        try {
+            apiResponse = lineMessagingService.pushMessage(pushMessage).execute();
+            return String.format("Sent messages: %s %s", apiResponse.message(), apiResponse.code());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return String.format("Error in sending messages : %s", e.toString());
+        }
     }
 
     @RequestMapping("/stock")
