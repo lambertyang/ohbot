@@ -600,18 +600,29 @@ public class OhBotController {
         try {
             String strResult = "";
             CloseableHttpClient httpClient = HttpClients.createDefault();
-            String url="http://taiwanoil.org/z.php?z=oiltw";
+            String url = "http://taiwanoil.org/";
             log.info(url);
             HttpGet httpget = new HttpGet(url);
             CloseableHttpResponse response = httpClient.execute(httpget);
             log.info(String.valueOf(response.getStatusLine().getStatusCode()));
             HttpEntity httpEntity = response.getEntity();
             strResult = EntityUtils.toString(httpEntity, "utf-8");
-            strResult = strResult.substring(strResult.indexOf("<table"), strResult.length());
-            strResult = strResult.substring(0, strResult.indexOf("</table>\");"));
-            strResult = strResult.replaceAll("</td></tr>", "\n");
-            strResult = strResult.replaceAll("</td>", "：");
-            strResult = strResult.replaceAll("<[^>]*>", "");
+            strResult = strResult.substring(strResult.indexOf("<td valign=top align=center>"), strResult.length());
+            strResult = strResult.substring(0, strResult.indexOf("</table><br><br><br>"));
+            String[] sp = strResult.split("預測下周價格");
+            String title = sp[0].replaceAll(".*?<table class=\"topmenu2\">", "").replaceAll(
+                    "<div align=center>[\\s]{0,}.*", "").replace("&nbsp;", "").replaceAll("<[^>]*>", "").replaceAll(
+                    "\n\t\n\n", "").replaceAll("\n\n", "");
+            String content = sp[1].replaceAll("<td style='text-align:right;'>[\\d]{4}/[\\d]{2}/[\\d]{2}</td>", "")
+                                  .replaceAll("<td style='text-align:right;'>[\\d]{1,2}\\.[\\d]{1,2}</td></tr>", "")
+                                  .replaceAll(
+                                          "<td style='text-align:right;'><font color=#00bb11>(\\+|\\-)[\\d]{1,}\\.[\\d]{1,}\\%",
+                                          "").replaceAll("</td></font></td>",
+                                                         " > ").replaceAll("</font></td>", "\n").replace(
+                            "</td></tr>", "").replaceAll("</td>", " : ").replaceAll("<[^>]*>", "");
+
+
+            strResult = title + "供應商:今日油價 > 預測下周漲跌\n" + content;
             this.replyText(replyToken, strResult);
         } catch (IOException e) {
             throw e;
