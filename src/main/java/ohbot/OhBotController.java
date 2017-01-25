@@ -619,7 +619,7 @@ public class OhBotController {
                     this.replyText(replyToken, strResult);
                 }else{
                     CloseableHttpClient httpClient = HttpClients.createDefault();
-                    url="http://tw.xingbar.com/cgi-bin/v5starfate2?fate=1&type="+url;
+                    url = "http://tw.xingbar.com/cgi-bin/v5starfate2?fate=1&type=" + url;
                     log.info(url);
                     HttpGet httpget = new HttpGet(url);
                     CloseableHttpResponse response = httpClient.execute(httpget);
@@ -631,7 +631,7 @@ public class OhBotController {
                     strResult = strResult.replaceAll("訂閱</a></div></td>", "");
                     strResult = strResult.replaceAll("<[^>]*>", "");
                     strResult = strResult.replaceAll("[\\s]{2,}", "\n");
-                    this.replyText(replyToken, "text "+strResult);
+                    this.replyText(replyToken, text + " " + strResult);
                 }
             }
         } catch (IOException e) {
