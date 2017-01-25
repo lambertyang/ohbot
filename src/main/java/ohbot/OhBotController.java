@@ -631,7 +631,12 @@ public class OhBotController {
                     strResult = strResult.replaceAll("訂閱</a></div></td>", "");
                     strResult = strResult.replaceAll("<[^>]*>", "");
                     strResult = strResult.replaceAll("[\\s]{2,}", "\n");
-                    this.replyText(replyToken, text + " " + strResult);
+                    if(text.equals("牡羊")){
+                        this.replyText(replyToken, text + "座 " + strResult);
+                    }else{
+                        this.replyText(replyToken, "愛惜生命 遠離" + text + "座 " + strResult);
+                    }
+
                 }
             }
         } catch (IOException e) {
