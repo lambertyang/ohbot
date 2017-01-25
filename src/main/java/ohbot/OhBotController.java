@@ -212,6 +212,29 @@ public class OhBotController {
         return strResult;
     }
 
+    @RequestMapping("/taiwanoil")
+    public String taiwanoil() {
+        String strResult = "";
+        try {
+                CloseableHttpClient httpClient = HttpClients.createDefault();
+                String url="http://taiwanoil.org/z.php?z=oiltw";
+                log.info(url);
+                HttpGet httpget = new HttpGet(url);
+                CloseableHttpResponse response = httpClient.execute(httpget);
+                log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                HttpEntity httpEntity = response.getEntity();
+                strResult = EntityUtils.toString(httpEntity, "utf-8");
+                strResult = strResult.substring(strResult.indexOf("<table"), strResult.length());
+                strResult = strResult.substring(0, strResult.indexOf("</table>\");"));
+                strResult = strResult.replaceAll("</td></tr>", "\n");
+                strResult = strResult.replaceAll("</td>", "：");
+                strResult = strResult.replaceAll("<[^>]*>", "");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return strResult;
+    }
+
     @EventMapping
     public void handleDefaultMessageEvent(Event event) {
         log.info("Received message(Ignored): {}", event);
@@ -235,6 +258,9 @@ public class OhBotController {
 
         if (text.endsWith("座?") || text.endsWith("座？")) {
             start(text, replyToken);
+        }
+        if (text.endsWith("油價?") || text.endsWith("油價？")) {
+            taiwanoil(text, replyToken);
         }
 
         if ((text.startsWith("@") && text.endsWith("?")) || (text.startsWith("@") && text.endsWith("？"))) {
@@ -565,6 +591,28 @@ public class OhBotController {
                 }
 
             }
+        } catch (IOException e) {
+            throw e;
+        }
+    }
+
+    private void taiwanoil(String text, String replyToken) throws IOException {
+        try {
+            String strResult = "";
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            String url="http://taiwanoil.org/z.php?z=oiltw";
+            log.info(url);
+            HttpGet httpget = new HttpGet(url);
+            CloseableHttpResponse response = httpClient.execute(httpget);
+            log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+            HttpEntity httpEntity = response.getEntity();
+            strResult = EntityUtils.toString(httpEntity, "utf-8");
+            strResult = strResult.substring(strResult.indexOf("<table"), strResult.length());
+            strResult = strResult.substring(0, strResult.indexOf("</table>\");"));
+            strResult = strResult.replaceAll("</td></tr>", "\n");
+            strResult = strResult.replaceAll("</td>", "：");
+            strResult = strResult.replaceAll("<[^>]*>", "");
+            this.replyText(replyToken, strResult);
         } catch (IOException e) {
             throw e;
         }
