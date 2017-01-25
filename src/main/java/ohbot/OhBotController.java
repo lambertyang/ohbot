@@ -631,11 +631,16 @@ public class OhBotController {
                     strResult = strResult.replaceAll("訂閱</a></div></td>", "");
                     strResult = strResult.replaceAll("<[^>]*>", "");
                     strResult = strResult.replaceAll("[\\s]{2,}", "\n");
-                    strResult = strResult.replace("心情：", "(sun)心情：");
-                    strResult = strResult.replace("愛情：", "(2 hearts)愛情：");
-                    strResult = strResult.replace("財運：", "(purse)財運：");
-                    strResult = strResult.replace("工作：", "(bag)工作：");
-                    if(text.equals("牡羊")){
+//                    strResult = strResult.replace("心情：", "(sun)心情：");
+//                    strResult = strResult.replace("愛情：", "(2 hearts)愛情：");
+//                    strResult = strResult.replace("財運：", "(purse)財運：");
+//                    strResult = strResult.replace("工作：", "(bag)工作：");
+
+                    strResult = strResult.replace("心情：", "◎心情：");
+                    strResult = strResult.replace("愛情：", "◎愛情：");
+                    strResult = strResult.replace("財運：", "◎財運：");
+                    strResult = strResult.replace("工作：", "◎工作：");
+                    if(url.contains("type=1")){
                         this.replyText(replyToken, text + "座 " + strResult);
                     }else{
                         this.replyText(replyToken, "愛惜生命 遠離" + text + "座 " + strResult);
