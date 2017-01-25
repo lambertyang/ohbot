@@ -170,6 +170,32 @@ public class OhBotController {
         return strResult;
     }
 
+    @RequestMapping("/start")
+    public String start(@RequestParam(value = "start") String start) {
+        String strResult = "";
+        try {
+            if (start != null) {
+                CloseableHttpClient httpClient = HttpClients.createDefault();
+                String url="http://tw.xingbar.com/cgi-bin/v5starfate2?fate=1&type="+start;
+                log.info(url);
+                HttpGet httpget = new HttpGet(url);
+                CloseableHttpResponse response = httpClient.execute(httpget);
+                log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                HttpEntity httpEntity = response.getEntity();
+                strResult = EntityUtils.toString(httpEntity, "big5");
+                strResult = strResult.substring(strResult.indexOf("<div id=\"date\">"), strResult.length());
+                strResult = strResult.substring(0, strResult.indexOf("</table><div class=\"google\">"));
+                strResult = strResult.replaceAll("訂閱</a></div></td>", "");
+                strResult = strResult.replaceAll("<[^>]*>", "");
+                strResult = strResult.replaceAll("[\\s]{2,}", "\n");
+                System.out.println(strResult);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return strResult;
+    }
+
     @EventMapping
     public void handleDefaultMessageEvent(Event event) {
         log.info("Received message(Ignored): {}", event);
@@ -189,6 +215,10 @@ public class OhBotController {
 
         if (text.endsWith("氣象?") || text.endsWith("氣象？")) {
             weatherResult2(text, replyToken);
+        }
+
+        if (text.endsWith("座?") || text.endsWith("座？")) {
+            start(text, replyToken);
         }
 
         if ((text.startsWith("@") && text.endsWith("?")) || (text.startsWith("@") && text.endsWith("？"))) {
@@ -518,6 +548,91 @@ public class OhBotController {
                     this.replyText(replyToken, strResult);
                 }
 
+            }
+        } catch (IOException e) {
+            throw e;
+        }
+    }
+
+    private void start(String text, String replyToken) throws IOException {
+        text = text.replace("座", "").replace("?", "").replace("？", "").trim();
+        log.info(text);
+        try {
+            if (text.length() == 2) {
+                String strResult;
+                String url ="";
+                switch (text) {
+                    case "牡羊": {
+                        url="1";
+                        break;
+                    }
+                    case "金牛": {
+                        url="2";
+                        break;
+                    }
+                    case "雙子": {
+                        url="3";
+                        break;
+                    }
+                    case "巨蟹": {
+                        url="4";
+                        break;
+                    }
+                    case "獅子": {
+                        url="5";
+                        break;
+                    }
+                    case "處女": {
+                        url="6";
+                        break;
+                    }
+                    case "天秤": {
+                        url="7";
+                        break;
+                    }
+                    case "天蠍": {
+                        url="8";
+                        break;
+                    }
+                    case "射手": {
+                        url="9";
+                        break;
+                    }
+                    case "魔羯": {
+                        url="10";
+                        break;
+                    }
+                    case "水瓶": {
+                        url="11";
+                        break;
+                    }
+                    case "雙魚": {
+                        url="12";
+                        break;
+                    }
+                    default:
+                        text="";
+
+                }
+                if(text.equals("")){
+                    strResult = "義大利?維大力? \n09487 沒有" + text + "這個星座...";
+                    this.replyText(replyToken, strResult);
+                }else{
+                    CloseableHttpClient httpClient = HttpClients.createDefault();
+                    url="http://tw.xingbar.com/cgi-bin/v5starfate2?fate=1&type="+url;
+                    log.info(url);
+                    HttpGet httpget = new HttpGet(url);
+                    CloseableHttpResponse response = httpClient.execute(httpget);
+                    log.info(String.valueOf(response.getStatusLine().getStatusCode()));
+                    HttpEntity httpEntity = response.getEntity();
+                    strResult = EntityUtils.toString(httpEntity, "big5");
+                    strResult = strResult.substring(strResult.indexOf("<div id=\"date\">"), strResult.length());
+                    strResult = strResult.substring(0, strResult.indexOf("</table><div class=\"google\">"));
+                    strResult = strResult.replaceAll("訂閱</a></div></td>", "");
+                    strResult = strResult.replaceAll("<[^>]*>", "");
+                    strResult = strResult.replaceAll("[\\s]{2,}", "\n");
+                    this.replyText(replyToken, "text "+strResult);
+                }
             }
         } catch (IOException e) {
             throw e;
